@@ -23,6 +23,7 @@ export default function Header({ title }) {
             w={"1.313rem"}
             h={"1.313rem"}
             display={["flex", "none"]}
+            cursor={"pointer"}
             onClick={() => navigate("/")}
           />
         )}
