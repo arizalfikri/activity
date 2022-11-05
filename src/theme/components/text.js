@@ -1,18 +1,28 @@
-import { defineStyle, defineStyleConfig } from "@chakra-ui/react";
-
-const heading = defineStyle({
-  fontSize: "24px",
-  lineHeight: "36px",
-  color: "#FFFFFF",
-});
-
-const baseHeading = defineStyle({
-  fontStyle: "normal",
-  fontSize: "36px",
-  lineHeight: "54px",
-  color: "#111111",
-});
+import { defineStyleConfig } from "@chakra-ui/react";
 
 export const textTheme = defineStyleConfig({
-  variants: { heading, baseHeading },
+  variants: {
+    heading: {
+      fontSize: "1.5rem",
+      lineHeight: "2.25rem",
+      color: "#FFFFFF",
+    },
+    xsHeading: {
+      fontSize: "1.125rem",
+      lineHeight: "2.25rem",
+      color: "#FFFFFF",
+    },
+    baseHeading: {
+      fontStyle: "normal",
+      fontSize: "2.25rem",
+      lineHeight: "3.375rem",
+      fontWeight: "bold",
+    },
+    xsBaseHeading: {
+      fontStyle: "normal",
+      fontSize: "1rem",
+      lineHeight: "3.375rem",
+      fontWeight: "bold",
+    },
+  },
 });

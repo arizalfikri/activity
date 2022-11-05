@@ -1,11 +1,10 @@
 export default function Trash() {
   return (
     <svg
-      width="18"
-      height="20"
       viewBox="0 0 18 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      style={{ width: "100%", height: "100%" }}
     >
       <path
         d="M1 5H17"

@@ -10,7 +10,12 @@ export default function ModalNotification({ isOpen, onClose }) {
   return (
     <Modal size={"lg"} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent my={"auto"} borderRadius={"12px"} boxShadow={"modal"}>
+      <ModalContent
+        my={"auto"}
+        borderRadius={"12px"}
+        boxShadow={"modal"}
+        mx={4}
+      >
         <ModalHeader
           display={"flex"}
           alignItems={"center"}
@@ -47,7 +52,7 @@ export default function ModalNotification({ isOpen, onClose }) {
               strokeLinejoin="round"
             />
           </svg>
-          <Text fontWeight={"normal"} fontSize={"14px"}>
+          <Text fontWeight={"semibold"} fontSize={"14px"}>
             Activity berhasil dihapus
           </Text>
         </ModalHeader>

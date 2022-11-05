@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -46,7 +46,7 @@ const selectStyles = {
     transition: "all .2s ease",
     transform: isFocused ? "rotate(180deg)" : null,
   }),
-  container: (style) => ({ ...style, width: "25%" }),
+  container: (style) => ({ ...style, width: "100%" }),
   indicatorSeparator: (style) => ({ ...style, display: "none" }),
   control: (style) => ({
     ...style,
@@ -65,57 +65,80 @@ const selectStyles = {
   },
 };
 
-export default function ModalCreateTodo({ isOpen, onClose }) {
+export default function ModalCreateTodo({ isOpen, onClose, prevData, type }) {
   const { id } = useParams();
   const [data, setData] = useState({
     activity_group_id: id,
     priority: "",
     title: "",
+    id: 0,
+    is_active: 1,
   });
-  const { createTodo, isLoading } = useTodos();
+  const { createTodo, updateTodo, isLoading } = useTodos();
+  const [error, setError] = useState(false);
+  const selectRef = useRef();
 
   const handleOnChange = (e) => {
     setData({ ...data, [e.target.name]: e.target?.value });
   };
 
-  const handleOnClick = () => {
-    createTodo(data);
+  const handleOnClick = (e) => {
+    type === "edit"
+      ? (updateTodo({ idTodo: data?.id, data }),
+        onClose(e),
+        setData({
+          activity_group_id: id,
+          priority: "",
+          title: "",
+          id: 0,
+          is_active: 1,
+        }))
+      : data?.priority
+      ? (createTodo(data), onClose(e))
+      : (setError(true), selectRef.current.focus());
   };
 
+  useEffect(() => {
+    prevData && setData(prevData);
+  }, [prevData]);
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={"4xl"}>
+    <Modal isOpen={isOpen} onClose={onClose} size={["sm", "4xl"]}>
       <ModalOverlay />
       <ModalContent
         my={"auto"}
         boxShadow={"modal"}
         borderRadius={"12px"}
         fontFamily={"base"}
+        mx={[3, 0]}
+        zIndex={90}
       >
         <ModalHeader
           display={"flex"}
-          w={"full"}
           justifyContent={"space-between"}
           px={8}
           py={5}
           borderBottom={"1px solid #E5E5E5"}
         >
-          <Text fontWeight={"semibold"} fontSize={"18px"}>
+          <Text fontWeight={"semibold"} fontSize={["1rem", "base"]}>
             Tambah List Item
           </Text>
         </ModalHeader>
-        <ModalBody px={8} py={10} borderBottom={"1px solid #E5E5E5"} w={"full"}>
+        <ModalBody px={8} py={10} borderBottom={"1px solid #E5E5E5"}>
           <Flex flexDir={"column"} gap={6}>
             <Box display={"flex"} flexDirection={"column"} gap={3}>
               <Text
                 textTransform={"uppercase"}
-                fontSize={"12px"}
+                fontSize={("xxs", "0.75rem")}
                 fontWeight={"semibold"}
               >
                 nama list item
               </Text>
               <Input
+                value={data?.title}
                 placeholder="Tambahkan nama Activity"
                 py={6}
+                fontSize={["xs", "1rem"]}
                 border={"1px solid #E5E5E5"}
                 name="title"
                 focusBorderColor={"#16ABF8"}
@@ -125,17 +148,25 @@ export default function ModalCreateTodo({ isOpen, onClose }) {
             <Box display={"flex"} flexDirection={"column"} gap={3}>
               <Text
                 textTransform={"uppercase"}
-                fontSize={"12px"}
+                fontSize={("xxs", "0.75rem")}
                 fontWeight={"semibold"}
               >
                 priority
               </Text>
-              <Select
-                onChange={(e) => setData({ ...data, priority: e.value })}
-                options={options}
-                styles={selectStyles}
-                placeholder={"Pilih priority"}
-              />
+              <Box boxSize={["full", "25%"]}>
+                <Select
+                  defaultValue={
+                    type === "edit"
+                      ? options.filter((el) => el.value === prevData?.priority)
+                      : options.filter((el) => el.value === data?.priority)
+                  }
+                  onChange={(e) => setData({ ...data, priority: e.value })}
+                  options={options}
+                  styles={selectStyles}
+                  ref={selectRef}
+                  placeholder={"Pilih priority"}
+                />
+              </Box>
             </Box>
           </Flex>
         </ModalBody>
@@ -143,8 +174,9 @@ export default function ModalCreateTodo({ isOpen, onClose }) {
           <Button
             isLoading={isLoading}
             variant={"primary"}
+            size={["xs", "lg"]}
             disabled={data?.title?.length < 1}
-            onClick={(e) => (handleOnClick(e), onClose(e))}
+            onClick={(e) => handleOnClick(e)}
           >
             <Text>Simpan</Text>
           </Button>

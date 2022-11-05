@@ -3,17 +3,6 @@ import { useParams } from "react-router-dom";
 
 import { actionAPI } from "../services";
 
-export const useGetAllActivity = () => {
-  const { data, isLoading, isFetching, isError } = useQuery(
-    ["activities", "list"],
-    () => actionAPI("get", "activity-groups?email=arizalfikri33@gmail.com"),
-    {
-      staleTime: Infinity,
-    }
-  );
-
-  return { data, isLoading, isFetching, isError };
-};
 
 export const useGetOneActivity = () => {
   const { id } = useParams();
@@ -74,6 +63,18 @@ export const useDeleteActivity = (id) => {
   return { deleteActivity, isSuccess };
 };
 
+export const useGetAllActivity = () => {
+  const { data, isLoading, isFetching, isError } = useQuery(
+    ["activities", "list"],
+    () => actionAPI("get", "activity-groups?email=arizalfikri33@gmail.com"),
+    {
+      staleTime: Infinity,
+    }
+  );
+
+  return { data, isLoading, isFetching, isError };
+};
+
 export const useUpdateActivity = () => {
   const { id } = useParams();
   const queryClient = useQueryClient();
@@ -85,6 +86,12 @@ export const useUpdateActivity = () => {
         queryClient.setQueryData(["activity", "detail", id], (old) => ({
           ...old,
           title: newData.title,
+        }));
+        queryClient.setQueryData(["activities", "list"], (old) => ({
+          ...old,
+          data: old?.data?.map((item) =>
+            item.id === newData.id ? newData : item
+          ),
         }));
       },
     }
