@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Flex,
+  Image,
   Input,
   Modal,
   ModalBody,
@@ -116,6 +117,7 @@ export default function ModalCreateTodo({ isOpen, onClose, prevData, type }) {
         <ModalHeader
           display={"flex"}
           justifyContent={"space-between"}
+          alignItems={"center"}
           px={8}
           py={5}
           borderBottom={"1px solid #E5E5E5"}
@@ -123,6 +125,34 @@ export default function ModalCreateTodo({ isOpen, onClose, prevData, type }) {
           <Text fontWeight={"semibold"} fontSize={["1rem", "base"]}>
             Tambah List Item
           </Text>
+          <Box
+            boxSize={["1.125rem", "1.5rem"]}
+            onClick={onClose}
+            cursor={"pointer"}
+          >
+            <svg
+              viewBox="0 0 18 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              width={"100%"}
+              height={"100%"}
+            >
+              <path
+                d="M13.5 4.5L4.5 13.5"
+                stroke="#A4A4A4"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M4.5 4.5L13.5 13.5"
+                stroke="#A4A4A4"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </Box>
         </ModalHeader>
         <ModalBody px={8} py={10} borderBottom={"1px solid #E5E5E5"}>
           <Flex flexDir={"column"} gap={6}>

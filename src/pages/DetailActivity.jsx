@@ -83,6 +83,7 @@ export default function DetailActivity() {
   const [type, setType] = useState("");
   const [oneData, setOneData] = useState(undefined);
   const [display, setDisplay] = useState(true);
+  const [checked, setChecked] = useState("");
 
   const { data } = useQuery({
     ...detailActivity(id),
@@ -122,6 +123,7 @@ export default function DetailActivity() {
   };
 
   const handleFilter = (item) => {
+    setChecked(item);
     filterTodos(item);
     onCloseDropdown();
   };
@@ -303,7 +305,8 @@ export default function DetailActivity() {
                   key={i}
                   px={[3, 6]}
                   display={"flex"}
-                  gap={[1.5, 3]}
+                  position={"relative"}
+                  gap={[1.5, 0]}
                   py={[2, 4]}
                   alignItems={"center"}
                   cursor={"pointer"}
@@ -315,10 +318,33 @@ export default function DetailActivity() {
                   }
                   onClick={() => handleFilter(item.title)}
                 >
-                  <Image src={item.img} w={[4, 8]} h={[4, 8]} />
-                  <Text fontSize={"xs"} fontWeight={"normal"}>
-                    {item.title}
-                  </Text>
+                  <HStack>
+                    <Image src={item.img} w={[4, 8]} h={[4, 8]} />
+                    <Text fontSize={"xs"} fontWeight={"normal"}>
+                      {item.title}
+                    </Text>
+                  </HStack>
+                  {checked === item.title && (
+                    <Box
+                      boxSize={["0.896rem", "1.125rem"]}
+                      position={"absolute"}
+                      right={["36", "28"]}
+                    >
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 18 18"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M3.75 9L7.5 12.75L15 5.25"
+                          stroke="#4A4A4A"
+                          strokeLinecap="square"
+                        />
+                      </svg>
+                    </Box>
+                  )}
                 </ModalBody>
               ))}
             </ModalContent>
