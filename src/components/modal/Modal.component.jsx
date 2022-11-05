@@ -14,27 +14,36 @@ import React, { useState } from "react";
 
 import Warning from "../../assets/icon/Warning";
 import { useDeleteActivity } from "../../hooks/useActivity";
+import { useTodos } from "../../hooks/useTodos";
 import ModalNotification from "./ModalNotification.component";
 
 export default function MyModal({ isOpen, onClose, type, data }) {
   const { deleteActivity } = useDeleteActivity(data?.id);
+  const { deleteTodo } = useTodos();
   const {
     isOpen: openNotification,
     onClose: closeNotification,
     onOpen,
   } = useDisclosure();
 
+  const handleClick = (e) => {
+    type !== "item" ? deleteActivity() : deleteTodo(data?.id);
+    onClose(e);
+    onOpen(e);
+  };
+
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} size={"lg"}>
+      <Modal isOpen={isOpen} onClose={onClose} size={["sm", "lg"]}>
         <ModalOverlay />
         <ModalContent
           my={"auto"}
           display={"flex"}
           flexDirection={"column"}
-          gap={6}
-          pt={8}
-          pb={2}
+          gap={[3, 6]}
+          pt={[4, 8]}
+          pb={[1, 2]}
+          mx={4}
           borderRadius={"12px"}
           boxShadow={"modal"}
         >
@@ -42,28 +51,31 @@ export default function MyModal({ isOpen, onClose, type, data }) {
             <Warning />
           </ModalHeader>
           <ModalBody textAlign={"center"}>
-            <Text color={"#111111"} fontSize={"18px"}>
+            <Text color={"#111111"} fontSize={["xs", "base"]}>
               Apakah anda yakin menghapus&nbsp;{type}&nbsp;
               <span style={{ fontWeight: 700 }}>"{data?.title}"</span>
             </Text>
           </ModalBody>
           <ModalFooter display={"flex"} mx={"auto"} gap={4}>
-            <Button variant={"cancel"} onClick={onClose}>
+            <Button variant={"cancel"} onClick={onClose} size={["xs", "lg"]}>
               Batal
             </Button>
             <Button
               variant={"warning"}
-              onClick={(e) => (deleteActivity(), onClose(e), onOpen(e))}
+              size={["xs", "lg"]}
+              onClick={(e) => handleClick(e)}
             >
               Hapus
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <ModalNotification
-        onClose={closeNotification}
-        isOpen={openNotification}
-      />
+      {type !== "item" && (
+        <ModalNotification
+          onClose={closeNotification}
+          isOpen={openNotification}
+        />
+      )}
     </>
   );
 }

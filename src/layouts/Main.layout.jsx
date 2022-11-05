@@ -9,11 +9,9 @@ export default function MainLayout({ children }) {
       bg={"wild-sand.DEFAULT"}
       color={"cod-gray.DEFAULT"}
       fontFamily={"base"}
+      pb={8}
     >
-      <Header />
-      <Box px={8}>
-        <Container size={"base"}>{children}</Container>
-      </Box>
+      {children}
     </Box>
   );
 }

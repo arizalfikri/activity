@@ -1,40 +1,37 @@
-import { defineStyle, defineStyleConfig, flexbox } from "@chakra-ui/react";
-
-const primary = defineStyle({
-  borderRadius: "2.813rem",
-  bg: "#16ABF8",
-  color: "#FFFFFF",
-  w: "9.875rem",
-  h: "3.375rem",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  fontWeight: "semibold",
-  fontSize: "18px",
-});
-
-const cancel = defineStyle({
-  borderRadius: "2.813rem",
-  w: "9.875rem",
-  h: "3.375rem",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  bg: "#F4F4F4",
-  color: "#4A4A4A",
-});
-
-const warning = defineStyle({
-  borderRadius: "2.813rem",
-  w: "9.875rem",
-  h: "3.375rem",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  bg: "#ED4C5C",
-  color: "#FFFFFF",
-});
+import { defineStyleConfig } from "@chakra-ui/react";
 
 export const buttonTheme = defineStyleConfig({
-  variants: { primary, cancel, warning },
+  baseStyle: {
+    borderRadius: "2.813rem",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  sizes: {
+    xs: {
+      w: "6.25rem",
+      h: "2.313rem",
+      fontSize: "0.75rem",
+    },
+    lg: {
+      w: "9.875rem",
+      h: "3.375rem",
+      fontSize: "1.125rem",
+    },
+  },
+  variants: {
+    primary: {
+      bg: "#16ABF8",
+      color: "#FFFFFF",
+      fontWeight: "semibold",
+    },
+    cancel: {
+      bg: "#F4F4F4",
+      color: "#4A4A4A",
+    },
+    warning: {
+      bg: "#ED4C5C",
+      color: "#FFFFFF",
+    },
+  },
 });
