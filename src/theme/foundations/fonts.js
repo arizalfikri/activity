@@ -1,0 +1,10 @@
+export const fontWeights = {
+  normal: 400,
+  medium: 500,
+  semibold: 600,
+  bold: 700,
+};
+
+export const fonts = {
+  base: `'Poppins', sans-serif`,
+};
