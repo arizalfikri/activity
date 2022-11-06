@@ -45,7 +45,6 @@ const selectStyles = {
   dropdownIndicator: (style, { isFocused }) => ({
     ...style,
     transition: "all .2s ease",
-    display: "none",
     transform: isFocused ? "rotate(180deg)" : null,
   }),
   container: (style) => ({ ...style, width: "100%" }),
@@ -214,30 +213,6 @@ export default function ModalCreateTodo({ isOpen, onClose, prevData, type }) {
                   ref={selectRef}
                   placeholder={"Pilih priority"}
                 />
-                <Box
-                  boxSize={"1.5rem"}
-                  position={"absolute"}
-                  top={3}
-                  right={3}
-                  data-cy={"modal-add-priority-dropdown"}
-                  onClick={() => selectRef.current.focus()}
-                  transition={"all 0.5s ease-in-out"}
-                  transform={focus ? "rotate(-180deg)" : "none"}
-                >
-                  <svg
-                    width="100%"
-                    height="100%"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M6 9L12 15L18 9"
-                      stroke="#111111"
-                      strokeLinecap="square"
-                    />
-                  </svg>
-                </Box>
               </Box>
             </Box>
           </Flex>

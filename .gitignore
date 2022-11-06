@@ -26,5 +26,5 @@ dist-ssr
 .env
 .firebase
 .firebaserc
-.firebase.json
+firebase.json
 firebase-tools-instant-win.exe
