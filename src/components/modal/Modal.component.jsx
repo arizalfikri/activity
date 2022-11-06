@@ -34,7 +34,12 @@ export default function MyModal({ isOpen, onClose, type, data }) {
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} size={["sm", "lg"]}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        size={["sm", "lg"]}
+        data-cy={"modal-delete"}
+      >
         <ModalOverlay />
         <ModalContent
           my={"auto"}
@@ -53,17 +58,25 @@ export default function MyModal({ isOpen, onClose, type, data }) {
           <ModalBody textAlign={"center"}>
             <Text color={"#111111"} fontSize={["xs", "base"]}>
               Apakah anda yakin menghapus&nbsp;{type}&nbsp;
-              <span style={{ fontWeight: 700 }}>"{data?.title}"</span>
+              <span style={{ fontWeight: 700 }} data-cy={"modal-delete-title"}>
+                "{data?.title}"
+              </span>
             </Text>
           </ModalBody>
           <ModalFooter display={"flex"} mx={"auto"} gap={4}>
-            <Button variant={"cancel"} onClick={onClose} size={["xs", "lg"]}>
+            <Button
+              variant={"cancel"}
+              onClick={onClose}
+              size={["xs", "lg"]}
+              data-cy={"modal-delete-cancel-button"}
+            >
               Batal
             </Button>
             <Button
               variant={"warning"}
               size={["xs", "lg"]}
               onClick={(e) => handleClick(e)}
+              data-cy={"modal-delete-confirm-button"}
             >
               Hapus
             </Button>

@@ -45,6 +45,7 @@ const selectStyles = {
   dropdownIndicator: (style, { isFocused }) => ({
     ...style,
     transition: "all .2s ease",
+    display: "none",
     transform: isFocused ? "rotate(180deg)" : null,
   }),
   container: (style) => ({ ...style, width: "100%" }),
@@ -75,8 +76,8 @@ export default function ModalCreateTodo({ isOpen, onClose, prevData, type }) {
     id: 0,
     is_active: 1,
   });
+  const [focus, setFocus] = useState(false);
   const { createTodo, updateTodo, isLoading } = useTodos();
-  const [error, setError] = useState(false);
   const selectRef = useRef();
 
   const handleOnChange = (e) => {
@@ -96,7 +97,7 @@ export default function ModalCreateTodo({ isOpen, onClose, prevData, type }) {
         }))
       : data?.priority
       ? (createTodo(data), onClose(e))
-      : (setError(true), selectRef.current.focus());
+      : selectRef.current.focus();
   };
 
   useEffect(() => {
@@ -104,7 +105,12 @@ export default function ModalCreateTodo({ isOpen, onClose, prevData, type }) {
   }, [prevData]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={["sm", "4xl"]}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size={["sm", "4xl"]}
+      data-cy={"modal-add"}
+    >
       <ModalOverlay />
       <ModalContent
         my={"auto"}
@@ -122,13 +128,18 @@ export default function ModalCreateTodo({ isOpen, onClose, prevData, type }) {
           py={5}
           borderBottom={"1px solid #E5E5E5"}
         >
-          <Text fontWeight={"semibold"} fontSize={["1rem", "base"]}>
+          <Text
+            fontWeight={"semibold"}
+            fontSize={["1rem", "base"]}
+            data-cy={"modal-add-title"}
+          >
             Tambah List Item
           </Text>
           <Box
             boxSize={["1.125rem", "1.5rem"]}
             onClick={onClose}
             cursor={"pointer"}
+            data-cy={"modal-add-close-button"}
           >
             <svg
               viewBox="0 0 18 18"
@@ -161,30 +172,37 @@ export default function ModalCreateTodo({ isOpen, onClose, prevData, type }) {
                 textTransform={"uppercase"}
                 fontSize={("xxs", "0.75rem")}
                 fontWeight={"semibold"}
+                data-cy={"modal-add-name-title"}
               >
                 nama list item
               </Text>
-              <Input
-                value={data?.title}
-                placeholder="Tambahkan nama Activity"
-                py={6}
-                fontSize={["xs", "1rem"]}
-                border={"1px solid #E5E5E5"}
-                name="title"
-                focusBorderColor={"#16ABF8"}
-                onChange={handleOnChange}
-              />
+              <Box w={"full"} data-cy={"modal-add-name-input"}>
+                <Input
+                  value={data?.title}
+                  placeholder="Tambahkan nama Activity"
+                  py={6}
+                  fontSize={["xs", "1rem"]}
+                  border={"1px solid #E5E5E5"}
+                  name="title"
+                  focusBorderColor={"#16ABF8"}
+                  onChange={handleOnChange}
+                />
+              </Box>
             </Box>
-            <Box display={"flex"} flexDirection={"column"} gap={3}>
+            <Box display={"flex"} h={"4rem"} flexDirection={"column"} gap={3}>
               <Text
                 textTransform={"uppercase"}
                 fontSize={("xxs", "0.75rem")}
                 fontWeight={"semibold"}
+                data-cy={"modal-add-name-input"}
               >
                 priority
               </Text>
-              <Box boxSize={["full", "25%"]}>
+              <Box boxSize={["full", "12.813rem"]} position={"relative"}>
                 <Select
+                  onFocus={() => setFocus(true)}
+                  onBlur={() => setFocus(false)}
+                  data-cy={"modal-add-priority-item"}
                   defaultValue={
                     type === "edit"
                       ? options.filter((el) => el.value === prevData?.priority)
@@ -196,6 +214,30 @@ export default function ModalCreateTodo({ isOpen, onClose, prevData, type }) {
                   ref={selectRef}
                   placeholder={"Pilih priority"}
                 />
+                <Box
+                  boxSize={"1.5rem"}
+                  position={"absolute"}
+                  top={3}
+                  right={3}
+                  data-cy={"modal-add-priority-dropdown"}
+                  onClick={() => selectRef.current.focus()}
+                  transition={"all 0.5s ease-in-out"}
+                  transform={focus ? "rotate(-180deg)" : "none"}
+                >
+                  <svg
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M6 9L12 15L18 9"
+                      stroke="#111111"
+                      strokeLinecap="square"
+                    />
+                  </svg>
+                </Box>
               </Box>
             </Box>
           </Flex>
@@ -203,6 +245,7 @@ export default function ModalCreateTodo({ isOpen, onClose, prevData, type }) {
         <ModalFooter alignItems={"flex-end"} w={"full"} py={6}>
           <Button
             isLoading={isLoading}
+            data-cy={"modal-add-save-button"}
             variant={"primary"}
             size={["xs", "lg"]}
             disabled={data?.title?.length < 1}

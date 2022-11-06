@@ -150,7 +150,11 @@ export default function DetailActivity() {
             mb={["2rem", "3.438rem"]}
           >
             <HStack spacing={[3, 7]} position={"relative"} w={"full"}>
-              <Box display={["none", "block"]} boxSize={["iconXs", "icon"]}>
+              <Box
+                display={["none", "block"]}
+                boxSize={["iconXs", "icon"]}
+                data-cy={"todo-back-button"}
+              >
                 <LeftArrow />
               </Box>
               <Box
@@ -166,6 +170,7 @@ export default function DetailActivity() {
                 <Text
                   variant={["xsBaseHeading", "baseHeading"]}
                   w={["full", "fit-content"]}
+                  data-cy={"todo-title"}
                   onClick={(e) => (handleFocus(e), setDisplay(false))}
                 >
                   {input}
@@ -173,6 +178,7 @@ export default function DetailActivity() {
                 <Box
                   cursor={"pointer"}
                   boxSize={["xs", "1.6rem"]}
+                  data-cy={"todo-title-edit-button"}
                   onClick={(e) => (handleFocus(e), setDisplay(false))}
                 >
                   <Edit head={true} />
@@ -215,13 +221,18 @@ export default function DetailActivity() {
               </InputGroup>
             </HStack>
             <Flex gap={[2, 4]} justifyContent={"flex-end"}>
-              <Box onClick={onOpenDropdown} boxSize={["2.375rem", "3.375rem"]}>
+              <Box
+                onClick={onOpenDropdown}
+                boxSize={["2.375rem", "3.375rem"]}
+                data-cy={"todo-sort-button"}
+              >
                 <Filter />
               </Box>
               <Button
                 variant={"primary"}
                 leftIcon={<Plus />}
                 size={["xs", "lg"]}
+                data-cy={"todo-add-button"}
                 onClick={(e) => handleClick(e, "create")}
               >
                 Tambah
@@ -229,18 +240,21 @@ export default function DetailActivity() {
             </Flex>
           </Flex>
           {data?.todo_items?.length < 1 ? (
-            <Image
-              src={woman}
-              w={550}
-              mx={"auto"}
-              objectFit={"contain"}
-              onClick={(e) => handleClick(e, "create")}
-            />
+            <Box data-cy={"todo-empty-state"} w={"full"}>
+              <Image
+                src={woman}
+                w={550}
+                mx={"auto"}
+                objectFit={"contain"}
+                onClick={(e) => handleClick(e, "create")}
+              />
+            </Box>
           ) : (
             <VStack spacing={3}>
               {data?.todo_items?.map((todo, i) => (
                 <Flex
                   key={i}
+                  data-cy={"todo-item"}
                   justifyContent={"space-between"}
                   alignItems={"center"}
                   w={"full"}
@@ -254,16 +268,23 @@ export default function DetailActivity() {
                 >
                   <HStack spacing={6}>
                     <Checkbox
+                      data-cy={"todo-item-checkbox"}
                       size={["sm", "lg"]}
                       colorScheme={"linkedin"}
                       onChange={(e) => handleChecked(e, todo)}
                       isChecked={todo.is_active === 0}
                     />
-                    <Circle priority={todo.priority} />
-                    <Text as={todo.is_active === 0 ? "del" : ""}>
+                    <Box data-cy={"todo-item-priority-indicator"}>
+                      <Circle priority={todo.priority} />
+                    </Box>
+                    <Text
+                      data-cy={"todo-item-title"}
+                      as={todo.is_active === 0 ? "del" : ""}
+                    >
                       {todo.title}
                     </Text>
                     <Box
+                      data-cy={"todo-item-edit-button"}
                       boxSize={["1.25rem", "xs"]}
                       onClick={(e) => (
                         setPrevData(todo), handleClick(e, "edit")
@@ -273,6 +294,7 @@ export default function DetailActivity() {
                     </Box>
                   </HStack>
                   <Box
+                    data-cy={"todo-item-delete-button"}
                     onClick={(e) => handleDelete(e, todo)}
                     boxSize={["xxs", "xs"]}
                   >
@@ -300,6 +322,7 @@ export default function DetailActivity() {
             >
               {optionDropdown.map((item, i) => (
                 <ModalBody
+                  data-cy={"sort-selection"}
                   w={["20rem"]}
                   bg={"#FFFFFF"}
                   key={i}
@@ -318,9 +341,18 @@ export default function DetailActivity() {
                   }
                   onClick={() => handleFilter(item.title)}
                 >
-                  <HStack>
-                    <Image src={item.img} w={[4, 8]} h={[4, 8]} />
-                    <Text fontSize={"xs"} fontWeight={"normal"}>
+                  <HStack data-cy={"sort-selection-selected"}>
+                    <Image
+                      src={item.img}
+                      w={[4, 8]}
+                      h={[4, 8]}
+                      data-cy={"sort-selection-icon"}
+                    />
+                    <Text
+                      fontSize={"xs"}
+                      fontWeight={"normal"}
+                      data-cy={"sort-selection-title"}
+                    >
                       {item.title}
                     </Text>
                   </HStack>

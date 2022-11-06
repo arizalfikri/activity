@@ -10,6 +10,7 @@ export default function MainLayout({ children }) {
       color={"cod-gray.DEFAULT"}
       fontFamily={"base"}
       pb={8}
+      className={"container"}
     >
       {children}
     </Box>

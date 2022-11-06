@@ -8,7 +8,12 @@ import {
 
 export default function ModalNotification({ isOpen, onClose }) {
   return (
-    <Modal size={"lg"} isOpen={isOpen} onClose={onClose}>
+    <Modal
+      size={"lg"}
+      isOpen={isOpen}
+      onClose={onClose}
+      data-cy={"modal-information"}
+    >
       <ModalOverlay />
       <ModalContent
         my={"auto"}
@@ -24,6 +29,7 @@ export default function ModalNotification({ isOpen, onClose }) {
           px={8}
         >
           <svg
+            data-cy="modal-information-icon"
             width="20"
             height="20"
             viewBox="0 0 20 20"
@@ -52,7 +58,11 @@ export default function ModalNotification({ isOpen, onClose }) {
               strokeLinejoin="round"
             />
           </svg>
-          <Text fontWeight={"semibold"} fontSize={"14px"}>
+          <Text
+            fontWeight={"semibold"}
+            fontSize={"14px"}
+            data-cy={"modal-information-title"}
+          >
             Activity berhasil dihapus
           </Text>
         </ModalHeader>

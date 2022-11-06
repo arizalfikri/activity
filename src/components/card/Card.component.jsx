@@ -30,6 +30,7 @@ export default function Card({ data, onOpen, setOneData }) {
       display={"flex"}
       flexDirection={"column"}
       justifyContent={"space-between"}
+      data-cy={"activity-item"}
     >
       <Box
         onClick={() => navigate(`detail/${data.id}`)}
@@ -37,7 +38,11 @@ export default function Card({ data, onOpen, setOneData }) {
         h={"full"}
         cursor={"pointer"}
       >
-        <Text fontSize={["xs", "base"]} fontWeight={"bold"}>
+        <Text
+          fontSize={["xs", "base"]}
+          fontWeight={"bold"}
+          data-cy={"activity-item-title"}
+        >
           {data.title}
         </Text>
       </Box>
@@ -48,13 +53,18 @@ export default function Card({ data, onOpen, setOneData }) {
         h={"fit-content"}
         gap={2}
       >
-        <Text color={"gray.500"} fontSize={["xxs", "xs"]}>
+        <Text
+          color={"gray.500"}
+          fontSize={["xxs", "xs"]}
+          data-cy={"activity-item-date"}
+        >
           {formatDate(new Date(data.created_at))}
         </Text>
         <Box
           onClick={(e) => (onOpen(e), setOneData(data))}
           cursor={"pointer"}
           boxSize={["xxs", "xs"]}
+          data-cy={"activity-item-delete-button"}
         >
           <Trash />
         </Box>

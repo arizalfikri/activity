@@ -8,7 +8,7 @@ export default function Header({ title }) {
   const { pathname } = useLocation();
 
   return (
-    <Box w={"full"} bg={"dodger-blue.500"} px={[5, 8]}>
+    <Box w={"full"} bg={"dodger-blue.500"} px={[5, 8]} className={"header"}>
       <Container
         size={"base"}
         py={8}
@@ -16,6 +16,7 @@ export default function Header({ title }) {
         display={"flex"}
         gap={3}
         alignItems={"center"}
+        data-cy={"header-background"}
       >
         {pathname.includes("detail") && (
           <Image
@@ -28,6 +29,7 @@ export default function Header({ title }) {
           />
         )}
         <Text
+          data-cy={"header-title"}
           textTransform={"uppercase"}
           variant={["xsHeading", "heading"]}
           fontWeight={"bold"}

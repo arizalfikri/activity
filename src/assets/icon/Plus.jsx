@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 
 export default function Plus() {
   return (
-    <Box boxSize={["xxs", "iconXs"]}>
+    <Box boxSize={["xxs", "iconXs"]} className={"icon-plus"}>
       <svg
         viewBox="0 0 16 16"
         fill="none"
